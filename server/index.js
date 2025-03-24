@@ -3,6 +3,7 @@ const {config} = require('dotenv')
 const connectionDB = require('./database/db');
 
 const userRoute = require('./routes/userRoute')
+const authRouter = require('./routes/authRoute')
 
 //load env variables 
 config();
@@ -19,8 +20,11 @@ app.use(express.json());
 //     res.send('wellcome to my server')
 // })
 
+//user router directory
+app.use('/api/user' , userRoute);
+//auther router directory
+app.use('/api/auth' , authRouter)
 
-app.use('api/' , userRoute)
 
 app.listen(PORT , () =>{
     console.log(`this server running at this ${PORT} port`)

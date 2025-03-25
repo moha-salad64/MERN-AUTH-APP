@@ -26,6 +26,17 @@ app.use('/api/user' , userRoute);
 app.use('/api/auth' , authRouter)
 
 
+//middleware functionality
+app.use((err , req , res , next) =>{
+    const statusCode = err.statusCode || 403;
+    const message = err.message || 'Internal Server Error';
+    return res.status(statusCode).json({
+        success:false,
+        message,
+        statusCode
+    }) 
+})
+
 app.listen(PORT , () =>{
     console.log(`this server running at this ${PORT} port`)
 })

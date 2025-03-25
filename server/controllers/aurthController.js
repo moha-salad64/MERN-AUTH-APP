@@ -1,7 +1,8 @@
 const User = require('../model/userModel')
-const bcryptjs = require('bcryptjs')
+const bcryptjs = require('bcryptjs');
+const { errorHandle } = require('../utils/error');
 
-exports.signUpController = async (req , res) =>{
+exports.signUpController = async (req , res , next) =>{
 //    console.log(req.body)
     try {
 
@@ -19,7 +20,8 @@ exports.signUpController = async (req , res) =>{
         })
         
     } catch (error) {
-        res.status(500).json(error.message);
+        // res.status(500).json(error.message);
+        next(errorHandle(402 , 'something went wrong!'))
     }
     
 }

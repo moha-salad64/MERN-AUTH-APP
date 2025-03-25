@@ -20,8 +20,8 @@ exports.signUpController = async (req , res , next) =>{
         })
         
     } catch (error) {
-        // res.status(500).json(error.message);
-        next(errorHandle(402 , 'something went wrong!'))
+        next(error)
+        // next(errorHandle(402 , 'something went wrong!'))
     }
     
 }

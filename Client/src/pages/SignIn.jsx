@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export default function SignIn() {
   return (
-    <div className='p-6 mt-20 max-w-lg mx-auto shadow-2xl rounded-2xl bg-gray-950 text-white'>
+    <div className='p-6 mt-20 max-w-lg mx-auto shadow-lg shadow-gray-800 rounded-2xl bg-white'>
       <h1 className='font-bold text-3xl text-center mt-4 capitalize'>Sign in</h1>
       <form action="" className='flex flex-col gap-3'>
 

@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom'
 
 export default function SignUp() {
 
-  const [formData , setFormData] = useState({})
+  const [formData , setFormData] = useState({});
+  const [error , setError] = useState(false);
+  const [loading , setLoading] = useState(false);
+  const [success , setSuccess] = useState(false);
 
   //hadling data from input form
   const handleChange = (e) =>{
@@ -16,6 +19,9 @@ export default function SignUp() {
     event.preventDefault();
 
     try {
+      setLoading(true);
+      setError(false);
+      // setSuccess(true)
       const response = await fetch('api/auth/signup',{
         method:"POST",
         headers:{'Content-Type':'application/json'},
@@ -23,9 +29,22 @@ export default function SignUp() {
       })
       const data = await response.json();
       console.log(data);
+
+      setLoading(false);
+      
+      if(data.success === false){
+        setError(true);
+        return
+      }
+      // if(data.success === true){
+      //   setSuccess(true)
+      //   return
+      // }
       
     } catch (error) {
-      console.log(error.message)
+      setLoading(false);
+      setError(true)
+      // setSuccess(false)
     }
     
     
@@ -76,7 +95,10 @@ export default function SignUp() {
     </div>
 
     <div className='flex flex-col my-2'>
-      <button type='submit' className='bg-blue-700 text-white p-2 rounded-lg hover:opacity-95 disabled:opacity-80 uppercase font-semibold text-1xl cursor-pointer'>sign up</button>
+      <button disabled={loading}  type='submit' 
+      className='bg-blue-700 text-white p-2 rounded-lg hover:opacity-95 disabled:opacity-80 uppercase font-semibold text-1xl cursor-pointer'>
+        {loading? 'Loading...': 'sign up'}
+        </button>
       {/* <button type='submit' className='bg-yellow-50 text-black p-2 uppercase rounded-lg mt-3 hover:opacity-95 disabled:opacity-80 font-semibold text-1xl cursor-pointer'>continue with google</button> */}
     </div>
     </form>
@@ -87,7 +109,8 @@ export default function SignUp() {
     <span className='text-blue-700 font-medium'>Sign in</span>
     </Link>
     </div>
-
+    {/* <p className='text-green-400 capitalize mt-5 text-center'>{success && 'User creation successfully'}</p> */}
+    <p className='text-red-600 mt-5 text-center capitalize'>{error && 'Somethign went wrong!'}</p>
     </div>
   )
 }

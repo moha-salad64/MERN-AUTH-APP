@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom'
 export default function SignUp() {
   return (
     <div className='p-6 mt-6 max-w-lg mx-auto shadow-xl shadow-blue-500/50 rounded-2xl bg-gray-950 text-white'>
-    <h1 className='text-4xl text-center font-bold mt-7'>Sign Up</h1>
+    <h1 className='text-4xl text-center font-bold mt-4 capitalize'>Sign Up</h1>
 
     <form className='flex flex-col gap-4'>
     <div className='flex flex-col m-1'>
-      <label  className='text-xl text-uppercase font-bold capitalize'>username</label>
+      <label  className='text-xl font-bold capitalize'>username</label>
     <input 
       type='text'
       placeholder='Username'
-      className='bg-slate-100 p-2 my-1 rounded-lg outline-0 hover:border border-blue-800m font-medium text-black'
+      className='bg-slate-100 p-2 my-1 rounded-lg outline-0 hover:border border-blue-800 font-medium text-black'
     />
     </div>
 
@@ -36,7 +36,7 @@ export default function SignUp() {
 
     <div className='flex flex-col my-2'>
       <button type='submit' className='bg-blue-700 text-white p-2 rounded-lg hover:opacity-95 disabled:opacity-80 uppercase font-semibold text-1xl cursor-pointer'>sign up</button>
-      <button type='submit' className='bg-slate-800 text-white p-2 uppercase rounded-lg mt-3 hover:opacity-95 disabled:opacity-80 font-semibold text-1xl cursor-pointer'>continue with google</button>
+      <button type='submit' className='bg-yellow-50 text-black p-2 uppercase rounded-lg mt-3 hover:opacity-95 disabled:opacity-80 font-semibold text-1xl cursor-pointer'>continue with google</button>
     </div>
     </form>
 

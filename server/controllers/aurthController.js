@@ -1,6 +1,7 @@
 const User = require('../model/userModel')
 const bcryptjs = require('bcryptjs');
 const { errorHandle } = require('../utils/error');
+const jwt = require('jsonwebtoken')
 
 exports.signUpController = async (req , res , next) =>{
 //    console.log(req.body)
@@ -24,4 +25,20 @@ exports.signUpController = async (req , res , next) =>{
         // next(errorHandle(402 , 'something went wrong!'))
     }
     
+}
+
+//signin controller
+exports.signinController = async(req , res , next) =>{
+    
+    const {email , password} = req.body; //handle the data from frontend 
+    try {
+        //validation of the email and password
+        const validEmail = await User.findOne({email});
+        if(!validEmail) return next(errorHandle(404 , 'User not found!'))
+        const validPassword = bcryptjs.compareSync(password , validEmail.password)
+        if(!validPassword) return next(errorHandle(401 , 'Invalid password'))
+        const token = jwt.sign
+    } catch (error) {
+        next(error)
+    }
 }

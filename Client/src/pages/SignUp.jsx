@@ -21,7 +21,6 @@ export default function SignUp() {
     try {
       setLoading(true);
       setError(false);
-      // setSuccess(true)
       const response = await fetch('api/auth/signup',{
         method:"POST",
         headers:{'Content-Type':'application/json'},
@@ -31,20 +30,18 @@ export default function SignUp() {
       console.log(data);
 
       setLoading(false);
+      setSuccess(true)
       
       if(data.success === false){
         setError(true);
+        setSuccess(false)
         return
       }
-      // if(data.success === true){
-      //   setSuccess(true)
-      //   return
-      // }
       
     } catch (error) {
       setLoading(false);
       setError(true)
-      // setSuccess(false)
+      setSuccess(false)
     }
     
     
@@ -109,7 +106,7 @@ export default function SignUp() {
     <span className='text-blue-700 font-medium'>Sign in</span>
     </Link>
     </div>
-    {/* <p className='text-green-400 capitalize mt-5 text-center'>{success && 'User creation successfully'}</p> */}
+     <p className='text-green-400 capitalize mt-5 text-center'>{success && 'User creation successfully'}</p>
     <p className='text-red-600 mt-5 text-center capitalize'>{error && 'Somethign went wrong!'}</p>
     </div>
   )

@@ -34,10 +34,13 @@ exports.signinController = async(req , res , next) =>{
     try {
         //validation of the email and password
         const validEmail = await User.findOne({email});
-        if(!validEmail) return next(errorHandle(404 , 'User not found!'))
-        const validPassword = bcryptjs.compareSync(password , validEmail.password)
-        if(!validPassword) return next(errorHandle(401 , 'Invalid password'))
-        const token = jwt.sign
+        if(!validEmail) return next(errorHandle(404 , 'User not found!'));
+        const validPassword = bcryptjs.compareSync(password , validEmail.password);
+        if(!validPassword) return next(errorHandle(401 , 'Invalid password'));
+        const token = jwt.sign({id: validEmail._id} , process.env.JWT_SECRET);
+        const {password: hashedPassword , ...user} = validEmail._doc;
+        const expiryDate = new Date(Date.now() + 3600000);
+        res.cookie('access_token' , token, {httpOnly:true, expires: expiryDate}).status(200).json(user);
     } catch (error) {
         next(error)
     }

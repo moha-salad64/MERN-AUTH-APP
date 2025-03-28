@@ -1,25 +1,51 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link , useNavigate } from 'react-router-dom'
 
 export default function SignIn() {
+
+  const [formData , setFormData] = useState({});
+  const navigate = useNavigate();
+
+  const handleChange =  (e)  =>{
+    setFormData({...formData , [e.target.id] : e.target.value})
+  }
+
+  const handleSubmit = async (event) =>{
+    event.preventDefault();
+
+    const response = await fetch('api/auth/signin' , {
+      method:"POST",
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(formData)
+    });
+
+    const data = await response.json();
+    navigate('/');
+  }
+  
+
   return (
     <div className='p-6 mt-20 max-w-lg mx-auto shadow-lg shadow-gray-800 rounded-2xl bg-white'>
       <h1 className='font-bold text-3xl text-center mt-4 capitalize'>Sign in</h1>
-      <form action="" className='flex flex-col gap-3'>
+      <form onSubmit={handleSubmit} className='flex flex-col gap-3'>
 
         <div className='flex flex-col m-1'>
           <label className='font-medium text-2xl capitalize'>Email</label>
           <input type="text" 
+          id='email'
           placeholder='Email'
           className='bg-slate-100 p-2 rounded-lg my-1 outline-0 text-black hover:border border-blue-800'
+          onChange={handleChange}
           />
         </div>
 
         <div className='flex flex-col m-1'>
           <label className='font-medium text-2xl capitalize'>Password</label>
           <input type="password" 
+          id='password'
           placeholder='Password'
           className='bg-slate-100 p-2 my-1 rounded-lg outline-0 text-black hover:border border-blue-800'
+          onChange={handleChange}
           />
         </div>
 

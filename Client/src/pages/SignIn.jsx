@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { Link , useNavigate } from 'react-router-dom'
+import { singInStart, signinSuccess,signInFailure } from '../redux/user/userSlice.js';
+import {useDispatch, useSelector} from 'react-redux'
 
 export default function SignIn() {
 
   const [formData , setFormData] = useState({});
+  const {loading , error} = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange =  (e)  =>{
     setFormData({...formData , [e.target.id] : e.target.value})
@@ -13,14 +17,41 @@ export default function SignIn() {
   const handleSubmit = async (event) =>{
     event.preventDefault();
 
-    const response = await fetch('api/auth/signin' , {
-      method:"POST",
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify(formData)
-    });
+    try {
+      dispatch(singInStart);
+      // dispatch(signInFailure);
+      // setLoading(true);
+      // setError(false);
+      const response = await fetch('api/auth/signin' , {
+        method:"POST",
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(formData)
+      });
 
-    const data = await response.json();
-    navigate('/');
+      const data = await response.json();
+      // console.log(data);
+
+      if(data.success === false){
+        // setError(true);
+        // setSuccess(false)
+        dispatch(signInFailure(data))
+        return
+      }
+      dispatch(signinSuccess(data))
+      navigate('/');
+
+      // setLoading(false);
+      // setSuccess(true)      
+      
+    } catch (error) {
+      // setLoading(false);
+      // setError(true)
+      // setSuccess(false)
+      // dispatch(signInFailure(error));
+      console.log(error.message)
+      
+    }
+   
   }
   
 
@@ -49,8 +80,8 @@ export default function SignIn() {
           />
         </div>
 
-        <button type='submit' className='bg-blue-700 p-2 mt-2 rounded-lg font-medium text-white cursor-pointer uppercase hover:opacity-95 disabled:opacity-80'>
-          Sign in
+        <button disabled={loading} type='submit' className='bg-blue-700 p-2 mt-2 rounded-lg font-medium text-white cursor-pointer uppercase hover:opacity-95 disabled:opacity-80'>
+         {loading? 'Loading' : 'Sign in'} 
         </button>
       </form>
 
@@ -59,6 +90,10 @@ export default function SignIn() {
         <Link to="/signup">
         <span className='font-medium text-blue-700'>Sign up</span>
         </Link>
+      </div>
+
+      <div>
+        <p className='text-red-600 mt-5 text-center capitalize'>{error && 'Something went wrong!'}</p>
       </div>
 
     </div>

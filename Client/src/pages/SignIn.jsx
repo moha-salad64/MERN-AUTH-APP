@@ -18,10 +18,8 @@ export default function SignIn() {
     event.preventDefault();
 
     try {
-      dispatch(singInStart);
-      // dispatch(signInFailure);
-      // setLoading(true);
-      // setError(false);
+      dispatch(singInStart()); 
+      dispatch(signInFailure());
       const response = await fetch('api/auth/signin' , {
         method:"POST",
         headers:{'Content-Type':'application/json'},
@@ -29,32 +27,18 @@ export default function SignIn() {
       });
 
       const data = await response.json();
-      // console.log(data);
-
       if(data.success === false){
-        // setError(true);
-        // setSuccess(false)
-        dispatch(signInFailure(data))
+        dispatch(signInFailure(data)) //if the data of the user false show the error 
         return
-      }
-      dispatch(signinSuccess(data))
-      navigate('/');
-
-      // setLoading(false);
-      // setSuccess(true)      
-      
+      };
+      dispatch(signinSuccess(data))// if the user is true go to the home 
+      navigate('/');     
     } catch (error) {
-      // setLoading(false);
-      // setError(true)
-      // setSuccess(false)
-      // dispatch(signInFailure(error));
-      console.log(error.message)
+      dispatch(signInFailure(error)); //if error accor show the error 
       
     }
    
   }
-  
-
   return (
     <div className='p-6 mt-20 max-w-lg mx-auto shadow-lg shadow-gray-800 rounded-2xl bg-white'>
       <h1 className='font-bold text-3xl text-center mt-4 capitalize'>Sign in</h1>
@@ -93,7 +77,7 @@ export default function SignIn() {
       </div>
 
       <div>
-        <p className='text-red-600 mt-5 text-center capitalize'>{error && 'Something went wrong!'}</p>
+        <p className='text-red-600 mt-5 text-center capitalize'>{error && 'Invalid Email || Password!'}</p>
       </div>
 
     </div>

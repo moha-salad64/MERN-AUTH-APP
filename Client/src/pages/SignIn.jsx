@@ -19,7 +19,7 @@ export default function SignIn() {
 
     try {
       dispatch(singInStart()); 
-      dispatch(signInFailure());
+      // dispatch(signInFailure());
       const response = await fetch('api/auth/signin' , {
         method:"POST",
         headers:{'Content-Type':'application/json'},
@@ -28,10 +28,10 @@ export default function SignIn() {
 
       const data = await response.json();
       if(data.success === false){
-        dispatch(signInFailure(data)) //if the data of the user false show the error 
+        dispatch(signInFailure(data)); //if the data of the user false show the error 
         return
       };
-      dispatch(signinSuccess(data))// if the user is true go to the home 
+      dispatch(signinSuccess(data)); // if the user is true go to the home 
       navigate('/');     
     } catch (error) {
       dispatch(signInFailure(error)); //if error accor show the error 

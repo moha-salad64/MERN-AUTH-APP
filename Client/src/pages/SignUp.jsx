@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Oauth from '../components/Oauth';
 
 export default function SignUp() {
 
@@ -96,8 +97,8 @@ export default function SignUp() {
       className='bg-blue-700 text-white p-2 rounded-lg hover:opacity-95 disabled:opacity-80 uppercase font-semibold text-1xl cursor-pointer'>
         {loading? 'Loading...': 'sign up'}
         </button>
-      {/* <button type='submit' className='bg-yellow-50 text-black p-2 uppercase rounded-lg mt-3 hover:opacity-95 disabled:opacity-80 font-semibold text-1xl cursor-pointer'>continue with google</button> */}
     </div>
+    <Oauth/>
     </form>
 
     <div className='flex gap-2 mt-4'>

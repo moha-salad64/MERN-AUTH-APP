@@ -45,3 +45,13 @@ exports.signinController = async(req , res , next) =>{
         next(error)
     }
 }
+
+
+// signin controller with google
+exports.signinGoogle = async(req , res , next) =>{
+    try {
+        
+    } catch (error) {
+        
+    }
+}

@@ -2,11 +2,12 @@ import {getAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 import { app } from '../firebase'
 import { useDispatch } from 'react-redux';
 import { signinSuccess } from '../redux/user/userSlice';
-
+import { useNavigate } from 'react-router-dom';
 
 export default function Oauth() {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleGoogleClick = async () =>{
         try {
@@ -14,9 +15,9 @@ export default function Oauth() {
             const auth = getAuth(app)
             const result = await signInWithPopup(auth , provider)
            
-            console.log(result);
+            // console.log(result);
     
-            const response = fetch('/api/auth/google' , {
+            const response = await fetch('/api/auth/google' , {
                 method: "POST",
                 headers: {
                     'Content-Type':'application/json'
@@ -27,9 +28,11 @@ export default function Oauth() {
                     photo: result.user.photoURL,
                 })
             });
+            
             const data = await response.json();
             console.log(data);
-            dispatch(signinSuccess(data))
+            dispatch(signinSuccess(data));
+            navigate('/');
             
         } catch (error) {
             console.log("cloud not connect with google account", error.message);
@@ -37,8 +40,6 @@ export default function Oauth() {
         }
     
     }
-
-
 
   return (
     <button 
